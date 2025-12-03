@@ -1,0 +1,115 @@
+Problem: 3625. Count Number of Trapezoids II
+
+Language: C++
+Solution file: 3625_count_number_of_trapezoids_ii.cpp
+Paste this README into your repo as the problem write-up.
+
+Table of Contents
+
+📝 Summary
+
+💡 Intuition
+
+🧠 Approaches
+
+1. Brute Force (not practical)
+
+2. Optimized: Slope + Intercept + Midpoint
+
+✅ Recommended Approach
+
+📌 Final Notes
+
+🧾 Code (C++)
+
+📝 Summary
+
+Given n distinct points on a 2D plane, count the number of unique trapezoids (convex quadrilaterals with at least one pair of parallel sides) that can be formed by choosing any 4 distinct points.
+
+Constraints: 4 <= n <= 500, coordinates in [-1000, 1000].
+
+💡 Intuition
+
+A trapezoid can be formed by choosing two distinct parallel lines, each defined by a pair of distinct points (two points per line).
+
+Count pairs of parallel lines with different intercepts. That gives trapezoid candidates.
+
+Parallelograms are a special case that get counted in the previous step (they have two pairs of parallel sides); those must be subtracted using the midpoint trick (diagonals of a parallelogram share the same midpoint).
+
+🧠 Approaches
+1. Brute Force (not practical)
+
+Explanation
+
+Enumerate all 4-point combinations O(n^4) and check whether the quadrilateral has at least one pair of equal slopes and is convex.
+
+This is conceptually simple but infeasible for n = 500.
+
+Complexity
+
+Time: O(n^4)
+
+Space: O(1)
+
+⚠️ Not implemented due to constraint limits.
+
+2. Optimized: Slope + Intercept + Midpoint
+
+High-level explanation
+
+Iterate all point pairs (i, j) (there are O(n^2)):
+
+Compute the slope (reduced fraction) and intercept (reduced fraction) for the line through the pair. For vertical lines, treat slope as infinity and intercept as x.
+
+Record (slope -> list of intercepts).
+
+Also record midpoint -> list of slopes for parallelogram detection (diagonals share midpoint).
+
+For each slope group:
+
+Let m be the number of lines (pairs) with that slope. Total unordered pairs = m*(m-1)/2.
+
+Remove pairs that have the same intercept (collinear segments on the same infinite line).
+
+Sum total_pairs - collinear_pairs across all slopes → counts all trapezoid candidates (including parallelograms).
+
+Parallelogram subtraction:
+
+For each midpoint, consider all diagonals (pairs of points) that share it; diagonals of parallelograms have slopes s1 and s2. Count pairs of diagonals with different slopes to count parallelogram duplicates and subtract appropriately (we subtract acc * count per slope distribution for that midpoint).
+
+Final result is total_trapezoid_candidates - parallelogram_adjustment.
+
+Why use fractions
+
+Use normalized integer fractions (num/den reduced by GCD) to avoid floating precision and reliably compare slopes/intercepts. Handle vertical lines separately (denominator 0 marker).
+
+Complexity
+
+Time: O(n^2 * log n) (hashing / map operations dominate)
+
+Space: O(n^2) for storing pairs
+
+✅ Recommended Approach
+
+Use the Slope + Intercept + Midpoint method:
+
+Handles vertical/horizontal lines robustly.
+
+Avoids floating-point errors by using reduced integer fractions.
+
+Runs in O(n^2) pairs processing and is the only practical solution for n ≤ 500.
+
+📌 Final Notes
+
+Always normalize slopes and intercepts (reduce by GCD, ensure denominator positive) to group equal lines.
+
+Treat vertical lines (infinite slopes) as a special fraction marker.
+
+Parallelograms are a common edge case — correctly subtract them with midpoint grouping.
+
+Use long long for intermediate multiplication to avoid overflow when computing numerators/denominators and midpoints.
+
+If asked by the interviewer: explain the combinatorics (choose 2 from lines with same slope, subtract same-intercept pairs) and midpoint trick for parallelogram correction.
+
+🧾 Code (C++)
+
