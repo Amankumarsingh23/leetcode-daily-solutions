@@ -1,6 +1,6 @@
 # 3625. Count Number of Trapezoids II
 
-**Language:** C++
+**Language:** C++  
 **Solution file:** `3625_count_number_of_trapezoids_ii.cpp`
 
 ---
@@ -11,96 +11,99 @@ Given **n distinct points** on a 2D plane, count how many **unique trapezoids** 
 
 **Constraints:**
 
-* 4 ≤ n ≤ 500
-* Coordinates ∈ [-1000, 1000]
+- 4 ≤ n ≤ 500  
+- Coordinates ∈ [-1000, 1000]
 
 ---
 
 ## 💡 Intuition
 
-A trapezoid has **at least one pair of parallel sides**.
-A line segment is defined by two points → two parallel sides → two pairs of points.
+A trapezoid must have **at least one pair of parallel sides**.
 
-So the problem becomes:
+A line segment is defined by two points → two segments are parallel if their slopes match.
 
-* Count **all pairs of parallel lines** (formed by point pairs)
-* But **subtract parallelograms**, because they are counted incorrectly when both pairs of sides are parallel.
+So the problem reduces to:
+
+- Count **pairs of parallel segments**  
+- But subtract **parallelograms**, because those count as “two pairs of parallel sides.”
 
 ---
 
 ## 🧠 Approaches
 
-### **1. Brute Force (Impractical)**
+### 1️⃣ Brute Force (Too Slow)
 
-Check every 4-point combination, compute slopes of all 6 edges, verify trapezoid shape.
+Try all 4-point combinations, validate edges.
 
-* **Time:** O(n⁴) → impossible for n=500
-* **Space:** O(1)
+- Time: O(n⁴) → not possible for n = 500
 
 ---
 
-### **2. Optimized: Slope + Intercept + Midpoint (Correct & Efficient)**
+### 2️⃣ Optimized Slope + Intercept + Midpoint Method
 
-This is the required method.
+This is the correct & efficient method.
 
-#### **Step 1 — Process all point pairs**
+#### ✔ Step 1 — Compute all segments
 
-For every pair (i, j) compute:
+For every pair (i, j):
 
-* **Slope** = dy/dx as a reduced fraction
-* **Intercept** = b from line equation y = mx + b
-* For vertical lines → slope = 1/0, intercept = x
+- Slope = dy/dx (reduced fraction)
+- Intercept = b
+- If vertical → slope = (1/0), intercept = x
 
 Store:
 
-* `slope → list of intercepts`
-* `midpoint → list of slopes` (for parallelogram detection)
-
-#### **Step 2 — Count parallel line pairs**
-
-For each slope group:
-
-* Suppose there are `m` segments
-* Total unordered pairs: `m * (m - 1) / 2`
-* But if two segments share **same intercept**, they lie on the same infinite line → invalid
-
-  * subtract `(count * (count - 1)) / 2` for each repeated intercept
-
-This gives **all unique trapezoid candidates** (includes parallelograms).
+- `slope → list of intercepts`
+- `midpoint → list of slopes` (for parallelogram detection)
 
 ---
 
-### **Step 3 — Subtract parallelograms**
+#### ✔ Step 2 — Count parallel segment pairs
+
+For each slope:
+
+- If there are `m` segments with this slope → candidates = `m * (m - 1) / 2`
+- If multiple segments lie on **same line** (same intercept), subtract their combinations:
+  - `(k * (k - 1)) / 2` for each repeated intercept
+
+This gives all **trapezoid candidates**, but includes parallelograms.
+
+---
+
+#### ✔ Step 3 — Subtract parallelograms
 
 Parallelograms have diagonals with the **same midpoint**.
 
-For each midpoint, group diagonals by slope and:
+For each midpoint:
 
-* Subtract pairs of diagonals with *different slopes*
-* Each parallelogram was counted twice → subtract accordingly
+- Group diagonals by slope
+- Subtract all pairs (each parallelogram counted twice)
 
 ---
 
-## ⭐ Why Fractions?
+## ⭐ Why use fractions?
 
-To avoid floating-point issues, slopes/intercepts must be stored as **normalized integer fractions**:
+To avoid floating-point precision errors:
 
-* Reduce numerator/denominator by GCD
-* Ensure denominator > 0
-* Vertical lines use `(1/0)` marker
+- Always reduce numerator & denominator using GCD  
+- Ensure denominator > 0  
+- Vertical → slope = (1, 0)
 
 ---
 
 ## ⏳ Complexity
 
-* **Time:** O(n² log n)
-* **Space:** O(n²)
-  Both are acceptable for n ≤ 500.
+- **Time:** O(n² log n)  
+- **Space:** O(n²)  
+Perfect for n ≤ 500.
 
 ---
 
 ## 🧾 Code (C++)
 
+> Replace this block with your actual C++ solution:
+
+```cpp
 
 #include <bits/stdc++.h>
 using namespace std;
@@ -267,14 +270,14 @@ int main() {
 }
 */
 
-
-
+```
 
 ---
 
 ## 📌 Final Notes
 
-* Always normalize slopes and intercepts.
-* Handle vertical lines specially.
-* Parallelogram subtraction is essential for correctness.
-* Use long long to avoid overflow.
+- Normalize all slopes/intercepts.
+- Handle vertical lines specially.
+- Midpoint + slope logic is required for parallelogram detection.
+- Use long long.
+
