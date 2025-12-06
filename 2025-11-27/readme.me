@@ -1,4 +1,3 @@
-
 # 📈 LeetCode 3381 — Maximum Subarray Sum With Length Divisible by K
 
 **Difficulty:** Medium  
@@ -14,10 +13,10 @@ Find the **maximum subarray sum** where the **length is divisible by k**.
 ## 💡 Intuition
 A subarray `nums[l..r]` satisfies:
 
-- Sum = `prefix[r] - prefix[l-1]`
-- Length divisible by k → `(r + 1) % k == l % k`
+- `sum = prefix[r] - prefix[l-1]`
+- length divisible by k → `(r + 1) % k == l % k`
 
-So we track **minimum prefix sum for each modulo class**.
+So we track the **minimum prefix sum** for each modulo class.
 
 ---
 
@@ -25,14 +24,15 @@ So we track **minimum prefix sum for each modulo class**.
 For each index:
 
 - `prefix += nums[i]`
-- remainder class → `r = (i + 1) % k`
+- `r = (i + 1) % k`
 
-To form a valid subarray:
+Valid subarray formula:
+
 ```
 max sum = prefix - best[r]
 ```
 
-Where `best[r]` is the **minimum prefix** with the same modulo.
+Where `best[r]` stores the **smallest prefix** with that remainder.
 
 ---
 
@@ -52,7 +52,7 @@ public:
         vector<long long> best(k, LLONG_MAX);
 
         long long prefix = 0, ans = LLONG_MIN;
-        best[0] = 0;  // empty prefix before starting
+        best[0] = 0;  // prefix before starting
 
         for(int i = 0; i < n; i++){
             prefix += nums[i];
@@ -72,12 +72,6 @@ public:
 ---
 
 ## 📌 Notes
-
-- Classic **prefix sum + modulo matching** trick  
-- Maintains minimum prefix for each modulo class  
-- Ensures subarray length is divisible by **k**
-```
-
----
-
-
+- Uses **prefix-sum modulo class grouping**
+- Tracks the best (minimum) prefix for each modulo
+- Ensures subarray length divisible by **k**
