@@ -1,0 +1,79 @@
+# 📈 LeetCode 3381 — Maximum Subarray Sum With Length Divisible by K
+
+**Difficulty:** Medium  
+**Tags:** Prefix Sum, Modulo, DP, Subarray
+
+---
+
+## 📝 Summary
+You must find the **maximum subarray sum** such that the **length of the subarray is divisible by k**.
+
+---
+
+## 💡 Intuition
+A subarray `nums[l..r]` has:
+- **Sum = prefix[r] - prefix[l-1]**
+- **Length = (r - l + 1)**
+
+Length divisible by `k` means:
+
+> `(r + 1) % k == l % k`
+
+So we track **minimum prefix sum for every remainder class**.
+
+---
+
+## 🧠 Approach
+### Key Idea  
+For each index `i`, compute:
+- `prefix = sum(nums[0..i])`
+- `r = (i + 1) % k`
+
+To maximize subarray sum, we want:
+prefix[i] - minimum prefix with same remainder
+
+
+Use an array `best[k]` where:
+- `best[r]` holds **minimum prefix sum** seen for that remainder.
+
+---
+
+## 🕒 Complexity
+- **Time:** O(n)  
+- **Space:** O(k)
+
+---
+
+## ✅ C++ Solution
+```cpp
+class Solution {
+public:
+    long long maxSubarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<long long> best(k, LLONG_MAX);
+
+        long long prefix = 0, ans = LLONG_MIN;
+        best[0] = 0;  // empty prefix before starting
+
+        for(int i = 0; i < n; i++){
+            prefix += nums[i];
+            int r = (i + 1) % k;
+
+            if(best[r] != LLONG_MAX)
+                ans = max(ans, prefix - best[r]);
+
+            best[r] = min(best[r], prefix);
+        }
+
+        return ans;
+    }
+};
+````
+📌 Notes
+
+Classic prefix-mod trick.
+
+Track the best prefix for each modulo class.
+
+Ensures subarray length is divisible by k.
+
