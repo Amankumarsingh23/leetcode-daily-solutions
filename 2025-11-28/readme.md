@@ -1,89 +1,98 @@
-📈 LeetCode 3381 — Maximum Subarray Sum With Length Divisible by K
+# 🌲 LeetCode 2872 — Maximum Number of K-Divisible Components
 
-Difficulty: Medium
-Tags: Prefix Sum, Modulo, DP, Subarray
+**Difficulty:** Hard  
+**Tags:** Tree DP, DFS, Modulo, Graph  
 
-📝 Problem Summary
+---
 
+## 📝 Problem Summary
 You're given:
+- An undirected **tree** of `n` nodes  
+- Each node `i` has a value `values[i]`  
+- A number `k`
 
-An integer array nums
+You may **remove any set of edges**.  
+After removing edges, all resulting **connected components** must have:
 
-An integer k
+> **The sum of values in the component divisible by k**
 
-Your task:
+Your goal:
 
-Find the maximum subarray sum such that the subarray length is divisible by k.
+> **Maximize the number of resulting components**.
 
-A subarray is valid if:
+---
 
-(r - l + 1) % k == 0
+## 💡 Core Idea — DFS + Cutting Subtrees
+Since removing an edge splits a subtree, consider a DFS:
 
-💡 Core Idea — Prefix Sum + Modulo Classes
+1. Compute the **sum of each subtree**.
+2. If a subtree's sum is **divisible by k**, then:
+   - It forms a **valid component**
+   - Increase answer count
+   - Return **0** upward (since this subtree is now separated)
+3. Otherwise, return the **sum value upward**.
 
-Key observation:
+This ensures maximum components because:
+- We cut **whenever it's allowed** (greedy & optimal).
+- Every divisible subtree becomes its own component.
 
-For a subarray l..r:
+---
 
-length = r - l + 1
-(r + 1) % k == l % k
+## 🧠 Complexity
+- **Time:** O(n)  
+- **Space:** O(n)
+
+---
+
+## ✅ C++ Code (Final, Clean, Fully Working)
+```cpp
+class Solution {
+public:
+    int ans = 0, k;
+    vector<vector<int>> adj;
+    vector<int> values;
+
+    long long dfs(int node, int parent) {
+        long long sum = values[node];
+
+        for (int child : adj[node]) {
+            if (child == parent) continue;
+            sum += dfs(child, node);
+        }
+
+        // If this subtree sum is divisible by k → it becomes its own component
+        if (sum % k == 0) {
+            ans++;
+            return 0;  // cut here
+        }
+
+        return sum;  // return uncut sum upward
+    }
+
+    int maxKDivisibleComponents(int n, vector<vector<int>>& edges, vector<int>& vals, int k) {
+        this->k = k;
+        this->values = vals;
+        adj.assign(n, {});
+
+        for (auto &e : edges) {
+            adj[e[0]].push_back(e[1]);
+            adj[e[1]].push_back(e[0]];
+        }
 
 
-This means:
 
-✔ Two prefix sums must have the same modulo
-✔ To maximize subarray sum, subtract the smallest prefix with that modulo
-
-So we maintain:
-
-prefix = running sum
-
-best[r] = minimum prefix sum seen for modulo class r
-
-At index i:
-
-r = (i + 1) % k
-candidate = prefix - best[r]
+        dfs(0, -1);
+        return ans;
+    }
+};
 
 
-Update answer and update best[r].
+```
 
-🕒 Complexity
+🏁 Notes
 
-Time: O(n)
+DFS ensures correct subtree sums.
 
-Space: O(k)
+Greedy cutting is optimal because cutting earlier prevents mixing sums.
 
-✅ C++ Code (Final, Clean, Fully Working)
-''''
-
-        
-        class Solution {
-               public:
-                   long long maxSubarraySum(vector<int>& nums, int k) {
-                       int n = nums.size();
-                       vector<long long> best(k, LLONG_MAX);
-                     long long prefix = 0, ans = LLONG_MIN;
-                       best[0] = 0;  // prefix before starting
-
-                             for(int i = 0; i < n; i++){
-                                 prefix += nums[i];
-                                 int r = (i + 1) % k;
-                     
-                                 if(best[r] != LLONG_MAX)
-                                     ans = max(ans, prefix - best[r]);
-                     
-                                 best[r] = min(best[r], prefix);
-                             }
-                     
-                             return ans;
-                         }
-                           };
-''''
-📌 Notes
-
-Classic prefix sum + modulo equivalence trick
-
-best[r] ensures subarray length is divisible by k
-
-Using LLONG_MIN/MAX handles negative numbers safely
+Root can also form a component if its full sum is divisible by k.
