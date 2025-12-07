@@ -1,33 +1,33 @@
-2211. Count Collisions on a Road
+# 2211. Count Collisions on a Road
 
 Language: C++
 Solution file: 2211_count_collisions_on_a_road.cpp
 
-📝 Summary
+## 📝 Summary
 
 You’re given a road with n cars, each either:
 
-'L' → moving left
+    'L' → moving left
+    
+    'R' → moving right
+    
+    'S' → stationary
+    
+    All moving cars have equal speed.
+    
+    Collisions happen when:
+    
+    R meets L → +2 collisions (both freeze)
+    
+    R meets S → +1 collision (R freezes)
+    
+    L meets S → +1 collision (L freezes)
+    
+    After collision, cars stop forever.
+    
+    The goal is to return total collisions.
 
-'R' → moving right
-
-'S' → stationary
-
-All moving cars have equal speed.
-
-Collisions happen when:
-
-R meets L → +2 collisions (both freeze)
-
-R meets S → +1 collision (R freezes)
-
-L meets S → +1 collision (L freezes)
-
-After collision, cars stop forever.
-
-The goal is to return total collisions.
-
-💡 Intuition
+## 💡 Intuition
 
 Most cars at the far ends never collide:
 
@@ -61,7 +61,7 @@ Step 2 — Count all 'L' and 'R' inside
 
 Each such car will certainly collide, giving exactly +1 collision each.
 
-🔥 Complexity
+## 🔥 Complexity
 
 Time: O(n)
 
@@ -69,13 +69,12 @@ Space: O(1)
 
 Fastest possible.
 
-🧾 Code (C++)
+## 🧾 Code (C++)
 
-Paste into 2211_count_collisions_on_a_road.cpp:
 
-class Solution {
-public:
-    int countCollisions(string s) {
+    class Solution {
+    public:
+        int countCollisions(string s) {
 
         int n = s.size();
         int i = 0, j = n - 1;
@@ -96,9 +95,9 @@ public:
 
         return ans;
     }
-};
+    };
 
-📌 Final Notes
+## 📌 Final Notes
 
 Leading 'L' and trailing 'R' can't collide → ignore them
 
