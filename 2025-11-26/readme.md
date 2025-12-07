@@ -1,9 +1,9 @@
-🧭 LeetCode 2435 — Paths in Matrix Whose Sum Is Divisible by K
+# 🧭 LeetCode 2435 — Paths in Matrix Whose Sum Is Divisible by K
 
 Difficulty: Hard
 Tags: Dynamic Programming, Grid, Modulo, 3D DP
 
-📝 Problem Summary
+## 📝 Problem Summary
 
 You are given an m × n grid and an integer k.
 You start at (0, 0) and must reach (m-1, n-1) by moving only right or down.
@@ -14,41 +14,41 @@ The sum of all values on the path is divisible by k
 
 Return the number of such valid paths mod 1e9+7.
 
-💡 Core Idea — 3D Dynamic Programming (DP)
+## 💡 Core Idea — 3D Dynamic Programming (DP)
 
 Define a DP state:
-
-dp[i][j][r] = number of ways to reach cell (i, j)
-             with path sum modulo k equal to r
+        
+        dp[i][j][r] = number of ways to reach cell (i, j)
+                     with path sum modulo k equal to r
 
 
 Transitions:
 
 From top (i-1, j) or left (i, j-1):
 
-new_r = (old_r + grid[i][j]) % k
-dp[i][j][new_r] += dp[prev][old_r]
+        new_r = (old_r + grid[i][j]) % k
+        dp[i][j][new_r] += dp[prev][old_r]
 
 
 Initialize:
 
-dp[0][0][grid[0][0] % k] = 1
+        dp[0][0][grid[0][0] % k] = 1
 
 
 Final answer:
 
-dp[m-1][n-1][0]
+        dp[m-1][n-1][0]
 
 
 Because remainder 0 ⇒ sum divisible by k.
 
-🕒 Complexity
+## 🕒 Complexity
 
 Time: O(m × n × k)
 
 Space: O(m × n × k)
 
-✅ C++ Code (Final, Clean, Fully Working)
+## ✅ C++ Code (Final, Clean, Fully Working)
 
 
    
@@ -86,7 +86,7 @@ Space: O(m × n × k)
                   return dp[m - 1][n - 1][0]; // remainder 0 => divisible
               }};
 
-📌 Notes
+## 📌 Notes
 
 This is a classic grid DP with modulo states
 
