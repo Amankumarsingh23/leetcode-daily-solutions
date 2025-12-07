@@ -79,9 +79,4 @@ Because the smallest repunit divisible by 1 is simply:
 
 ---
 
-If you want, I can also generate:  
-✅ README-ready explanation  
-✅ Commit message  
-✅ Folder structure  
-✅ More solutions in Java/Python  
-Just tell me!
+
