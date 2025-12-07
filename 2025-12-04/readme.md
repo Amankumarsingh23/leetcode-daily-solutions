@@ -48,9 +48,9 @@ A left-moving car inside the middle will eventually hit something to its left (n
 A right-moving car inside the middle will eventually hit something to its right.
 
 So the number of collisions =
-👉 Number of non-'S' cars in the middle region
+    👉 Number of non-'S' cars in the middle region
 
-🧠 Approach
+## 🧠 Approach
 Step 1 — Remove non-colliding cars
 
 Skip all leading 'L'
