@@ -1,32 +1,32 @@
-📈 LeetCode 3381 — Maximum Subarray Sum With Length Divisible by K
+# 📈 LeetCode 3381 — Maximum Subarray Sum With Length Divisible by K
 
 Difficulty: Medium
 Tags: Prefix Sum, Modulo, DP, Subarray
 
-📝 Problem Summary
+## 📝 Problem Summary
 
 You're given:
-
-An integer array nums
-
-An integer k
+        
+        An integer array nums
+        
+        An integer k
 
 Your task:
 
-Find the maximum subarray sum such that the subarray length is divisible by k.
+        Find the maximum subarray sum such that the subarray length is divisible by k.
 
 A subarray is valid if:
 
-(r - l + 1) % k == 0
+        (r - l + 1) % k == 0
 
-💡 Core Idea — Prefix Sum + Modulo Classes
+## 💡 Core Idea — Prefix Sum + Modulo Classes
 
 Key observation:
 
 For a subarray l..r:
-
-length = r - l + 1
-(r + 1) % k == l % k
+        
+        length = r - l + 1
+        (r + 1) % k == l % k
 
 
 This means:
@@ -42,19 +42,19 @@ best[r] = minimum prefix sum seen for modulo class r
 
 At index i:
 
-r = (i + 1) % k
-candidate = prefix - best[r]
+        r = (i + 1) % k
+        candidate = prefix - best[r]
 
 
 Update answer and update best[r].
 
-🕒 Complexity
+## 🕒 Complexity
 
 Time: O(n)
 
 Space: O(k)
 
-✅ C++ Code (Final, Clean, Fully Working)
+## ✅ C++ Code (Final, Clean, Fully Working)
 ''''
 
         
@@ -80,7 +80,7 @@ Space: O(k)
                          }
                            };
 ''''
-📌 Notes
+## 📌 Notes
 
 Classic prefix sum + modulo equivalence trick
 
