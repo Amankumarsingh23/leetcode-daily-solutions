@@ -1,15 +1,15 @@
-🔢 LeetCode 1523 — Count Odd Numbers in an Interval Range
+# 🔢 LeetCode 1523 — Count Odd Numbers in an Interval Range
 
 Difficulty: Easy
 Tags: Math, Counting
 
-📝 Problem Summary
+## 📝 Problem Summary
 
 You are given two integers low and high.
 
 Your task:
 
-Count how many odd numbers lie between low and high (inclusive).
+    Count how many odd numbers lie between low and high (inclusive).
 
 Example:
 
@@ -17,7 +17,7 @@ Input: low = 3, high = 7
 
 Odds: [3, 5, 7] → 3 numbers
 
-💡 Core Idea — Count Odds Mathematically
+## 💡 Core Idea — Count Odds Mathematically
 
 Instead of iterating through the range, use a simple formula:
 
@@ -40,13 +40,13 @@ Which simplifies to:
 
 This is O(1) and super clean.
 
-🕒 Complexity
+## 🕒 Complexity
 
 Time: O(1)
 
 Space: O(1)
 
-✅ C++ Code (Final, Clean, Fully Working)
+## ✅ C++ Code (Final, Clean, Fully Working)
 
     class Solution {
     public:
@@ -55,7 +55,7 @@ Space: O(1)
         }
     };
 
-📌 Notes
+## 📌 Notes
 
 Pure math, no loops needed
 
